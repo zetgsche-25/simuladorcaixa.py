@@ -118,6 +118,38 @@ def resumo_final(saldo):
     print(f"Saldo final: R$ {saldo:.2f}")
     print("Obrigado por comprar conosco!")
 
+# 👉 Função de forma de pagamento
+def forma_pagamento(total):
+    print("\n=== FORMAS DE PAGAMENTO ===")
+    print("[1] Dinheiro")
+    print("[2] Cartão")
+    print("[3] Pix")
+    
+    escolha = input("Escolha a forma de pagamento: ")
+    
+    if escolha == "1":
+        print("💵 Pagamento em dinheiro selecionado.")
+        try:
+            valor = float(input("Digite o valor entregue: R$ "))
+            if valor < total:
+                print("⚠️ Valor insuficiente!")
+            elif valor == total:
+                print("✅ Pagamento realizado sem troco.")
+            else:
+                troco = valor - total
+                print(f"✅ Pagamento realizado. Seu troco é R$ {troco:.2f}.")
+        except ValueError:
+            print("Entrada inválida!")
+    
+    elif escolha == "2":
+        print("💳 Pagamento em cartão realizado com sucesso.")
+    
+    elif escolha == "3":
+        print("📱 Pagamento via Pix realizado com sucesso.")
+    
+    else:
+        print("Opção inválida.")
+
 def exibir_menu(saldo):
     while True:
         print("\n=== MENU PRINCIPAL ===")
@@ -126,6 +158,7 @@ def exibir_menu(saldo):
         print("[3] Adicionar produto")
         print("[4] Remover produto do carrinho")
         print("[5] Ver extrato")
+        print("[6] Finalizar compra e pagar")
         print("[0] Sair")
         
         try:
@@ -144,6 +177,14 @@ def exibir_menu(saldo):
             saldo = remover_produto(saldo)
         elif escolha == 5:
             ver_extrato(saldo)
+        elif escolha == 6:
+            total_compras = sum(produtos[item] * qtd for item, qtd in carrinho.items())
+            if total_compras > 0:
+                forma_pagamento(total_compras)
+                resumo_final(saldo)
+                break
+            else:
+                print("⚠️ Seu carrinho está vazio.")
         elif escolha == 0:
             resumo_final(saldo)
             ver_extrato(saldo)
